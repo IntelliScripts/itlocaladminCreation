@@ -1,3 +1,9 @@
+# Check if the script is running as Administrator
+if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Host "This script must be run as an Administrator." -ForegroundColor Red
+    exit
+}
+
 $Username = "itlocaladmin"
 
 $Parameters = @{
@@ -40,4 +46,4 @@ else {
     return
 }
 
-# wget -uri 'https://raw.githubusercontent.com/IntelliScripts/IntelliScripts/refs/heads/main/Scripts/itlocaladminCreation.ps1' -UseBasicParsing | iex"
+# wget -uri 'https://raw.githubusercontent.com/IntelliScripts/itlocaladminCreation/refs/heads/main/itlocaladminCreation.ps1' -UseBasicParsing | iex
