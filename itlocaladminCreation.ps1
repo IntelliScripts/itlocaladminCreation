@@ -1,7 +1,7 @@
 # Check if the script is running as Administrator
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Host "This script must be run as an Administrator." -ForegroundColor Red
-    exit
+    return
 }
 
 $Username = "itlocaladmin"
