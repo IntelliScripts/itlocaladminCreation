@@ -20,20 +20,18 @@ if (-not (Get-LocalUser -Name $Username -ErrorAction SilentlyContinue)) {
 
     # Create a new local administrator account
     $Account = New-LocalUser -Name $Username -Password $SecurePassword
-
-    
-    # Set the account to never expire
-    $Account | Set-LocalUser -PasswordNeverExpires:$true
-    
-
+  
     # Add the account to the Administrators group
     Add-LocalGroupMember -Group "Administrators" -Member $Username
+
+    # Set the account to never expire
+    $Account | Set-LocalUser -PasswordNeverExpires:$true
 
     # Verify the account was created and added to the Administrators group and has a password that never expires
     $AccountExists = Get-LocalUser -Name $Username -ErrorAction SilentlyContinue
     $IsInGroup = Get-LocalGroupMember -Group "Administrators" -Member $Username -ErrorAction SilentlyContinue
 
-    if ($AccountExists -and $IsInGroup -and $Account.PasswordNeverExpires -eq $true) {
+    if ($AccountExists -and $IsInGroup -and ($null -eq (Get-LocalUser -Name 'itlocaladmin').PasswordExpires)) {
         Write-Host "Verification successful: The account '$Username' exists and is a member of the Administrators group and has a password that never expires."
     }
     else {
